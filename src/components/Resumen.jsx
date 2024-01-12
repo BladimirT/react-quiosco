@@ -44,7 +44,7 @@ export default function Resumen() {
             type="submit"
             className={`${comprobarPedido() ? 'bg-indigo-100' : 'bg-indigo-600  hover:bg-indigo-800'} px-5 py-2 rounded uppercase font-bold text-white text-center w-full cursor-pointer`}
             value="confirmar pedido"
-            disabled={comprobarPedido}
+            disabled={comprobarPedido()}
           />
         </div>
       </form>
