@@ -1,9 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom'
-import Layout from './layouts/layout'
 import AuthLayout from './layouts/AuthLayout'
+import Layout from './layouts/layout'
 import Inicio from './views/Inicio'
-import Registro from './views/Registro'
 import Login from './views/Login'
+import Registro from './views/Registro'
 
 const router = createBrowserRouter([
     {
