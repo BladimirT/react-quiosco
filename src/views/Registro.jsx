@@ -15,19 +15,15 @@ export default function Registro() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // const datos =  {
-    //   name: nameRef.current.value,
-    //   email: emailRef.current.value,
-    //   password: passwordRef.current.value,
-    //   password_confirmation: passwordConfirmationRef.current.value
-    // }
-
-    const name = nameRef.current.value
-    const email = emailRef.current.value
-    const password = passwordRef.current.value
-    const password_confirmation = passwordConfirmationRef.current.value
+    const datos = {
+      name: nameRef.current.value,
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+      password_confirmation: passwordConfirmationRef.current.value
+    }
     try {
-      const respuesta = await clienteAxios.post('/api/registro', { name, email, password, password_confirmation })
+      const { data } = await clienteAxios.post('/api/registro', datos)
+      console.log(data.token)
     } catch (error) {
       setErrores(Object.values(error.response.data.errors))
     }
