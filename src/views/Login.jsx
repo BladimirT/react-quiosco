@@ -2,6 +2,7 @@ import { createRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Alerta from '../components/Alerta';
 import { useAuth } from '../hooks/useAuth';
+import Spinner from '../components/Spinner';
 
 export default function Login() {
 
@@ -9,6 +10,8 @@ export default function Login() {
   const passwordRef = createRef();
 
   const [errores, setErrores] = useState([])
+  const [cargando, setCargando] = useState(false)
+
   const { login } = useAuth({
     middleware: 'guest',
     url: '/'
@@ -21,17 +24,20 @@ export default function Login() {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     }
-
+    setCargando(true)
     login(datos, setErrores)
   }
 
 
   return (
+
+
     <>
       <h1 className="text-4xl font-black">Iniciar Sesión</h1>
       <p>Para crear un pedido debes iniciar sesión</p>
 
       <div className="bg-white shadow-md rounded-md mt-10 px-5 py-10">
+        {cargando ? <Spinner /> : null}
         <form
           onSubmit={handleSubmit}
           noValidate
