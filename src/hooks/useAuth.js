@@ -1,12 +1,12 @@
-import { useEffect } from "react"
-import useSWR from "swr"
-import { Await, useNavigate } from "react-router-dom"
-import clienteAxios from "../config/axios"
+import { useEffect } from 'react'
+import useSWR from 'swr'
+import { useNavigate } from 'react-router-dom'
+import clienteAxios from "../config/axios";
 
 export const useAuth = ({ middleware, url }) => {
 
     const token = localStorage.getItem('AUTH_TOKEN')
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const { data: user, error, mutate } = useSWR('/api/user', () =>
         clienteAxios('/api/user', {
@@ -23,7 +23,7 @@ export const useAuth = ({ middleware, url }) => {
     const login = async (datos, setErrores) => {
         try {
             const { data } = await clienteAxios.post('/api/login', datos)
-            localStorage.setItem('AUTH_TOKEN', data.token)
+            localStorage.setItem('AUTH_TOKEN', data.token);
             setErrores([])
             await mutate()
         } catch (error) {
@@ -36,7 +36,7 @@ export const useAuth = ({ middleware, url }) => {
             const { data } = await clienteAxios.post('/api/registro', datos)
             localStorage.setItem('AUTH_TOKEN', data.token);
             setErrores([])
-            await mutate
+            await mutate()
         } catch (error) {
             setErrores(Object.values(error.response.data.errors))
         }
@@ -60,6 +60,15 @@ export const useAuth = ({ middleware, url }) => {
         if (middleware === 'guest' && url && user) {
             navigate(url)
         }
+
+        if (middleware === 'guest' && user && user.admin) {
+            navigate('/admin');
+        }
+
+        if (middleware === 'admin' && user && !user.admin) {
+            navigate('/')
+        }
+
         if (middleware === 'auth' && error) {
             navigate('/auth/login')
         }
@@ -72,4 +81,5 @@ export const useAuth = ({ middleware, url }) => {
         user,
         error
     }
+
 }
